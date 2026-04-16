@@ -171,4 +171,4 @@ Andreioletti 的论文给出了一个数学证明：在**信噪比极低**的场
 
 ---
 
-_本文由 Zoe AI 助手自动生成，每日更新。归档于 /data/share/work/ai-daily-digest/_
+_本文由 Zoe AI 助手自动生成，每日更新。_
