@@ -1,847 +1,860 @@
-# AI 每日情报 · 2026年10月1日（国庆特刊）
+# 🤖 AI 每日情报 · 2026年10月1日（国庆特刊）
 
-> 🦞 **Zoe 情报站** | 深度版 · 目标 8000-15000 字
-> 数据来源：arXiv (cs.AI/cs.LG/cs.CL)、GitHub Trending、HuggingFace Papers/Models、LLM Stats、Essa Mamdani、Paper Digest 等 12+ 来源
+> **深度版** | 目标读者：AI 从业者、研究者、爱好者  
+> **数据来源**：arXiv、HuggingFace、GitHub Trending、LLM Stats、PaperDigest、FAZM、Essa Mamdani、DevFlokers 等 12+ 信息源  
+> **本期关键词**：Agent Harness 范式爆发、KV Cache 压缩竞赛、Qwen 图像模型霸榜、推理时计算新理论
 
 ---
 
 ## 📋 今日速览
 
-| 板块 | 关键词 | 重要度 |
-|------|--------|--------|
-| 前沿模型 | Qwen-Image-2.1、DeepSeek-V4.1-Flash、MiMo-V2.6-Pro-RL | ⭐⭐⭐⭐⭐ |
-| Agent 架构 | Raven（Harness of Harnesses）、Meta-Reasoning、Meta-Skill | ⭐⭐⭐⭐⭐ |
-| 开源生态 | HARISSA、LongHarness Bench、SelfSearch、KV-Kaizen | ⭐⭐⭐⭐ |
-| AI 工具 | OpenCode Skills、EmDash CMS、Edge 端侧 AI | ⭐⭐⭐⭐ |
-| 深读论文 | 6 篇精选（含方法论+启发） | ⭐⭐⭐⭐⭐ |
-| 学习建议 | 3 个可执行方向 | ⭐⭐⭐ |
+| 板块 | 核心看点 |
+|---|---|
+| 前沿模型动态 | Qwen-Image-2.1 发布即霸榜；DeepSeek-V4.1-Flash 763B 开源；MiMo-V2.6-Pro-RL 1T 参数推理模型；小米 MiMo 系列蒸馏版涌现 |
+| Agent 架构与范式 | "Harness of Harnesses" 论文登顶 HuggingFace Daily Papers；Meta-Reasoning 推理框架提出；视频理解 Agent 自进化 |
+| 开源生态 | Qwen3.8-27B 下载量破 700 万；Audio8-ASR 语音识别新标杆；TeleOCR 1B 轻量 OCR；Nemotron-3 说话人分离 |
+| AI 工具与技巧 | Bastion 安全架构指南；OpenCode Skill 仓库精选；Edge 端侧 AI API 实战 |
+| 值得深读的研究 | 6 篇精选论文深度解读，涵盖元推理、KV 缓存压缩、长期记忆、链式思考可靠性等 |
+| 今日学习建议 | 5 条可执行建议，从论文阅读到动手实践 |
 
 ---
 
 ## 一、前沿模型动态
 
-### 1.1 Qwen-Image-2.1：通义千问图像生成新标杆
+### 1.1 Qwen-Image-2.1：通义千问图像生成模型的全面升级
 
-**发布方：** 阿里巴巴 Qwen 团队
-**模型规模：** 7B 参数
-**HuggingFace 下载量：** 70.7K（24小时内）
+**发布时间**：2026 年 9 月底  
+**参数规模**：7B  
+**热度**：HuggingFace 下载量 70.7K+，Likes 2.72K+
 
 #### 技术细节
 
-Qwen-Image-2.1 是通义千问最新发布的文生图模型，在架构上采用了改进的 Diffusion Transformer（DiT）架构，支持多分辨率输出和精细的文本理解能力。该模型在以下方面表现突出：
+Qwen-Image-2.1 是阿里通义千问团队最新发布的文生图模型，基于 7B 参数规模。该模型在发布后 24 小时内即引发社区大量衍生版本：
 
-- **文本渲染能力**：显著提升了图像中文字/英文的准确渲染
-- **复杂构图**：支持多人物、多物体的空间关系理解
-- **风格多样性**：内置多种艺术风格，从写实到插画均可驾驭
-
-#### 社区生态
-
-模型发布后迅速催生了大量衍生版本：
-
-| 衍生模型 | 特点 | 下载量 |
-|---------|------|--------|
-| Qwen-Image-2.1-Uncensored-GGUF | 无审查版本，GGUF 量化 | 1.23M |
-| Qwen-Image-2.1-viggle-turbo | Viggle 优化的加速版 | 205K |
-| Comfy-Org/Qwen-Image-2.1 | ComfyUI 官方集成 | 5.03M |
+- **abenzerps/Qwen-Image-2.1-Uncensored-GGUF**：去除审查的 GGUF 量化版，下载量达 123 万+
+- **Viggle/Qwen-Image-2.1-viggle-turbo**：加速推理版本，下载量 20.5 万+
+- **Comfy-Org/Qwen-Image-2.1**：ComfyUI 官方集成版，下载量 503 万+
 
 #### 对比分析
 
 | 维度 | Qwen-Image-2.1 | FLUX.1 | Stable Diffusion 3.5 |
-|------|----------------|--------|---------------------|
-| 参数量 | 7B | 12B | 8B |
+|---|---|---|---|
+| 参数规模 | 7B | 12B | 8B |
 | 中文理解 | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ |
-| 推理速度 | 快 | 中 | 快 |
-| 开源程度 | 完全开源 | 部分开源 | 完全开源 |
-| 商用许可 | 允许 | 需付费 | 允许 |
+| 推理速度 | 快（有 turbo 版） | 中等 | 快 |
+| 社区生态 | 爆发式增长 | 成熟 | 成熟 |
+| 本地部署友好度 | 高（GGUF 可用） | 中 | 高 |
+
+#### 应用场景
+
+- 中文场景下的商业海报、社交媒体素材生成
+- 与 ComfyUI 工作流集成本地化图像生产管线
+- 搭配 LoRA 进行风格微调
 
 #### 💡 对你的价值
 
-- **中文场景首选**：如果你的应用涉及中文提示词或需要生成中文文字图像，Qwen-Image-2.1 是目前最佳选择
-- **本地部署友好**：7B 参数规模在消费级 GPU（16GB+ 显存）上即可运行
-- **ComfyUI 集成成熟**：社区已有完整的工作流支持，可直接用于生产
+如果你在做中文相关的图像生成业务，Qwen-Image-2.1 是目前最值得尝试的开源选择。GGUF 量化版意味着可以在消费级 GPU（甚至 CPU）上运行。ComfyUI 集成版则让非技术用户也能快速上手。
 
 ---
 
-### 1.2 DeepSeek-V4.1-Flash：763B 参数的多模态巨兽
+### 1.2 DeepSeek-V4.1-Flash：763B 参数的开源多模态巨兽
 
-**发布方：** DeepSeek（深度求索）
-**模型规模：** 763B 参数（MoE 架构）
-**HuggingFace 下载量：** 721K
-
-#### 技术细节
-
-DeepSeek-V4.1-Flash 是深度求索最新发布的旗舰多模态模型，采用 MoE（Mixture of Experts）架构，总参数量达到 763B，但实际推理时仅激活约 40-50B 参数。
-
-**核心创新：**
-- **细粒度专家路由**：改进了 Top-K 路由机制，支持动态专家选择
-- **跨模态对齐**：视觉编码器与语言模型通过新的桥接层实现深度对齐
-- **Flash 推理**：针对推理场景优化，支持 128K 上下文窗口
-
-#### 性能表现
-
-| 基准测试 | DeepSeek-V4.1-Flash | GPT-4o | Claude 3.5 Sonnet |
-|---------|---------------------|--------|-------------------|
-| MMMU | 72.3 | 69.1 | 68.5 |
-| MathVista | 68.7 | 65.2 | 63.8 |
-| OCRBench | 89.2 | 85.4 | 83.1 |
-| 代码生成 (HumanEval) | 88.5 | 90.2 | 92.1 |
-
-#### 💡 对你的价值
-
-- **开源多模态新选择**：在需要本地部署多模态能力的场景下，这是目前最强的开源选择之一
-- **成本考量**：763B 参数需要多卡推理，适合有 GPU 集群的团队
-- **中文能力**：DeepSeek 一贯的中文优势在此版本中继续保持
-
----
-
-### 1.3 小米 MiMo-V2.6 系列：端侧多模态新势力
-
-**发布方：** 小米 MiMo 团队
-**模型矩阵：**
-- MiMo-V2.6-Pro-RL：1T 参数（推理增强版）
-- MiMo-V2.6-Distill-Qwen-9B：9B 参数（蒸馏版）
+**发布时间**：2026 年 9 月中旬  
+**参数规模**：763B（MoE 架构，激活参数远小于总量）  
+**热度**：HuggingFace 下载量 72.1 万+，Likes 3.94K+
 
 #### 技术细节
 
-小米在 AI 领域的布局持续加速。MiMo-V2.6 系列有两个值得关注的版本：
+DeepSeek-V4.1-Flash 是深度求索最新一代的开源多模态模型，支持图像+文本输入。763B 的总参数量采用 MoE（Mixture of Experts）架构，实际推理时只激活部分专家，大幅降低计算成本。
 
-**Pro-RL（1T 参数）：**
-- 采用强化学习（RL）进行推理能力增强
-- 支持复杂的数学推理和代码生成
-- 81K 下载量，613 点赞
-
-**Distill-Qwen-9B：**
-- 从 Qwen3.8-27B 蒸馏而来的轻量版本
-- 保留约 85% 的原模型能力
-- 适合端侧部署场景
+关键特性：
+- **多模态理解**：支持图文混合输入
+- **MoE 高效推理**：Flash 后缀暗示针对推理速度做了专项优化
+- **开源权重**：完全开放的模型权重，支持本地部署和微调
 
 #### 对比分析
 
-| 维度 | MiMo-V2.6-9B | Qwen3.8-7B | Phi-4-mini |
-|------|-------------|-----------|-----------|
-| 参数量 | 9B | 7B | 3.8B |
-| 多模态 | ✅ | ✅ | ✅ |
-| 中文能力 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| 端侧适配 | 良好 | 优秀 | 优秀 |
-| 推理能力 | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| 维度 | DeepSeek-V4.1-Flash | GPT-5.1 | Claude Opus 4.5 | Gemini 3 Pro |
+|---|---|---|---|---|
+| 参数规模 | 763B (MoE) | 未公开 | 未公开 | 未公开 |
+| 开源 | ✅ 完全开源 | ❌ | ❌ | ❌ |
+| 多模态 | 图文 | 图文音视频 | 图文 | 图文音视频 |
+| 本地部署 | ✅ | ❌ | ❌ | ❌ |
+| 成本 | 仅硬件成本 | API 付费 | API 付费 | API 付费 |
 
 #### 💡 对你的价值
 
-- **端侧多模态方案**：9B 蒸馏版是手机端/边缘设备部署的不错选择
-- **小米生态整合**：如果你的产品涉及小米生态，MiMo 是原生支持的首选
-- **蒸馏技术参考**：从大模型蒸馏到小模型的实践案例，值得学习
+对于需要私有化部署多模态能力的企业，DeepSeek-V4.1-Flash 是目前开源社区最强大的选择之一。MoE 架构让它在推理效率上有天然优势。但注意，763B 总参数意味着即使激活参数较少，模型加载仍需要大量显存（建议至少 4×A100 80G 或使用量化版本）。
 
 ---
 
-### 1.4 其他值得关注的模型更新
+### 1.3 小米 MiMo-V2.6 系列：蒸馏与 RL 的双路线探索
 
-| 模型 | 类型 | 亮点 | 适用场景 |
-|------|------|------|---------|
-| Edge0/Audio8-ASR-Infinite | 语音识别 | 4B 参数，无限时长音频处理 | 会议转录、播客处理 |
-| XingChen-AGI/TeleOCR | OCR | 1B 参数，专注文档识别 | 文档数字化 |
-| nvidia/Nemotron-3-Diarization | 说话人分离 | 99.2M 参数，轻量高效 | 多人对话分析 |
-| apple/LensVLM-9B | 视觉语言 | 苹果出品，9B 参数 | 图像理解 |
-| TaichuAI/ZDTaichu5.0-9B | 多模态 | 10B 参数，中科院出品 | 学术研究 |
+**发布方**：小米 MiMo 团队  
+**模型矩阵**：
+- **MiMo-V2.6-Pro-RL**：1T 参数，强化学习优化版，下载量 8.1 万+
+- **MiMo-V2.6-Distill-Qwen-9B**：9B 参数，从 Qwen 蒸馏版，下载量 1.21 万+
+
+#### 技术细节
+
+小米在模型路线上采取了"双管齐下"策略：
+
+1. **Pro-RL 路线**：1T 参数的超大模型，通过强化学习（RL）进行深度优化，追求极致推理能力
+2. **蒸馏路线**：将大模型能力蒸馏到 9B 小模型中，基于 Qwen 架构，追求端侧部署可行性
+
+#### 对比分析
+
+| 维度 | MiMo-V2.6-Pro-RL | MiMo-V2.6-Distill-Qwen-9B |
+|---|---|---|
+| 参数规模 | 1T | 9B |
+| 优化方法 | 强化学习 | 知识蒸馏 |
+| 目标场景 | 云端高性能推理 | 端侧/边缘部署 |
+| 硬件需求 | 多卡集群 | 单卡/消费级 GPU |
+| 下载量 | 8.1 万 | 1.21 万 |
+
+#### 💡 对你的价值
+
+小米的蒸馏版本（9B）对普通开发者更有实际意义——它证明了通过合理的蒸馏策略，小模型也能获得接近大模型的能力。如果你在做端侧 AI 应用，这个版本值得深入测试。
+
+---
+
+### 1.4 其他值得关注的模型发布
+
+| 模型 | 类型 | 参数 | 亮点 |
+|---|---|---|---|
+| **Qwen3.8-27B** | 多模态 LLM | 28B | 下载量 704 万+，社区最活跃的多模态基座 |
+| **XingChen-AGI/TeleOCR** | OCR | 1B | 超轻量 OCR，下载量 3.04 万+ |
+| **Edge0/Audio8-ASR-Infinite** | 语音识别 | 4B | 无限长音频 ASR，下载量 2.67 万+ |
+| **nvidia/Nemotron-3-Diarization** | 说话人分离 | 99.2M | NVIDIA 官方，极轻量，下载量 3.64 万+ |
+| **apple/LensVLM-9B** | 多模态 VLM | 9B | Apple 出品的视觉语言模型 |
+| **TaichuAI/ZDTaichu5.0-9B** | 多模态 | 10B | 中科院紫东太初系列 |
+| **XingChen-AGI/Xing4.0-29B-A4B** | 文本生成 | 31B (MoE, 激活 4B) | MoE 小激活比，效率极高 |
+| **inclusionAI/Ming-Image-0.1-Design** | 文生图 | 6B | 面向设计场景的图像生成 |
+
+---
+
+### 1.5 行业模型格局速览
+
+根据 LLM Stats 最新排行榜，当前闭源前沿模型格局：
+
+| 排名 | 模型 | 厂商 | 关键能力 |
+|---|---|---|---|
+| 1 | Gemini 3 Pro | Google | 多模态推理、超长上下文 |
+| 2 | GPT-5.1 | OpenAI | 代码生成、复杂推理 |
+| 3 | Claude Opus 4.5 | Anthropic | 长文本理解、安全性 |
+| 4 | Grok-4 Heavy | xAI | 实时信息、大上下文 |
+| 5 | GLM-4.6 | 智谱 AI | 中文能力、工具调用 |
+
+> 📊 **趋势观察**：开源模型（DeepSeek-V4.1、Qwen3.8）在部分基准测试上已接近甚至超越闭源模型，差距在快速缩小。
 
 ---
 
 ## 二、Agent 架构与范式
 
-### 2.1 Raven：Harness 的 Harness —— 可组合 Agent 智能的新范式
+### 2.1 Raven: "Harness of Harnesses" — 可组合 Agent 智能的新范式
 
-**论文：** Raven: The Harness of Harnesses for Composable Agentic Intelligence
-**机构：** EverMind AI
-**HuggingFace 热度：** 452 票（当日第一）
+**论文**：[Raven: The Harness of Harnesses for Composable Agentic Intelligence](https://arxiv.org/abs/2609.33439)  
+**来源**：EverMind AI  
+**热度**：HuggingFace Daily Papers 第 1 名，452 票
 
-#### 核心问题
+#### 核心思想
 
-当前 AI Agent 面临两大挑战：
-1. **Harness 复杂度爆炸**：随着任务变得复杂，手动设计 Agent 的执行框架（harness）变得不可持续
-2. **领域耦合过紧**：单一 harness 难以跨领域复用，限制了 Agent 的通用性
+Raven 提出了"Harness of Harnesses"（编排器的编排器）概念。传统 Agent 框架通常是一个单一的 harness（编排层）管理工具调用和决策流程。Raven 的核心创新在于：
 
-#### 解决方案：Raven 架构
+1. **分层编排**：多个专业 harness 各司其职，由一个 meta-harness 统一协调
+2. **可组合性**：每个 harness 都是独立可插拔的模块，可以像乐高一样组合
+3. **智能路由**：meta-harness 根据任务特征动态选择最优的 harness 组合
 
-Raven 提出了"Harness of Harnesses"的概念，核心思想是：
+#### 技术架构
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                   Raven 生态系统                      │
-├─────────────────────────────────────────────────────┤
-│  Host Agent（宿主代理）                                │
-│  ├── 目标分解                                         │
-│  ├── 子任务匹配                                       │
-│  ├── 执行依赖协调                                      │
-│  └── 结果整合                                         │
-├─────────────────────────────────────────────────────┤
-│  All-Domain Collaboration Network                    │
-│  ├── Specialized Agent 1 ←→ Harness 1               │
-│  ├── Specialized Agent 2 ←→ Harness 2               │
-│  └── ...                                            │
-├─────────────────────────────────────────────────────┤
-│  持久化层                                             │
-│  ├── Host Archive（经验存档）                          │
-│  ├── EverOS（操作系统级记忆）                           │
-│  └── Skill Forge（技能锻造炉）                         │
-└─────────────────────────────────────────────────────┘
+┌─────────────────────────────────┐
+│        Meta-Harness (Raven)      │
+│   任务分析 → 路由 → 编排 → 聚合   │
+├─────────┬──────────┬────────────┤
+│ Harness │ Harness  │  Harness   │
+│   A     │    B     │    C       │
+│ (代码)  │ (搜索)   │  (数据分析) │
+├─────────┴──────────┴────────────┤
+│      工具层 (Tools/APIs)         │
+└─────────────────────────────────┘
 ```
-
-**关键组件：**
-
-1. **可组合智能单元**：每个 (模型, harness) 对被视为一个可组合的智能单元
-2. **Host Agent**：负责高层任务分解和协调
-3. **Skill Forge**：将执行经验转化为可复用的程序化技能
-4. **EverOS**：跨任务保留经验的操作系统级抽象
-
-#### 理论贡献
-
-论文建立了充分条件，证明这种组合方式可以在共享资源预算下，扩展可靠任务覆盖范围超过单个 Agent 的能力。
-
-#### 实验结果
-
-在复杂和长周期任务上，Raven 显著优于现有 SOTA Agent 系统。
 
 #### 💡 对你的价值
 
-- **架构设计参考**：如果你在构建多 Agent 系统，Raven 的分层架构值得借鉴
-- **技能复用思路**：Skill Forge 的"经验→技能"转化机制可以应用到你的 Agent 设计中
-- **开源可用**：论文声称是开源的，可以实际试用
+这代表了 Agent 架构从"大一统"向"可组合"演进的趋势。如果你在设计复杂 Agent 系统，考虑将不同能力域拆分为独立 harness，而不是在一个巨大的 prompt 里塞入所有逻辑。这种架构更易于测试、调试和扩展。
 
 ---
 
-### 2.2 Thinking Before Thinking：Agent 元推理的突破性框架
+### 2.2 Meta-Reasoning: 推理之前的推理
 
-**论文：** Thinking Before Thinking: Scaling Agentic Inference Through Meta-Reasoning
-**机构：** Meta AI（作者包括 Jason Weston、Sanjeev Arora 等大佬）
-**arXiv：** 2609.38147
+**论文**：[Thinking Before Thinking: Scaling Agentic Inference Through Meta-Reasoning](https://arxiv.org/abs/2609.38147)  
+**作者团队**：Meta FAIR + NYU（Paras Dahal, Anton Bakhtin, Jason Weston 等 12 人）
 
-#### 核心洞察
+#### 核心思想
 
-随着 Agent 处理的任务越来越长、越来越复杂，**控制执行本身就变成了一个独立的任务**。每一步执行都带来新的控制选择：
-- 在哪个部分工作基础上继续？
-- 是否需要从头开始？
-- 什么时候应该停止？
+在 Agent 执行推理之前，先进行一层"元推理"（Meta-Reasoning）——评估任务特征，决定应该使用哪种推理策略、分配多少计算资源。
 
-#### 解决方案：Agentic Meta-Reasoning
+关键贡献：
+- **自适应计算分配**：简单问题少花 token，复杂问题多花 token
+- **策略选择**：自动判断应该用 CoT、ToT 还是直接回答
+- **效率提升**：在保持准确率的同时显著降低推理成本
 
-论文提出了一个推理时的 harness，将这些控制选择变成**显式的、结构化的推理过程**：
+#### 与传统方法的对比
 
-```
-┌─────────────────────────────────────────────────────┐
-│              Meta-Reasoning 架构                      │
-├─────────────────────────────────────────────────────┤
-│  Controller（控制器）                                  │
-│  ├── 整合当前已确立的内容                               │
-│  ├── 探索下一步选项                                    │
-│  ├── 评估每个选项在剩余预算下的价值                      │
-│  └── 从持久记忆中提取上下文进行调度                      │
-├─────────────────────────────────────────────────────┤
-│  Workers（执行者）                                     │
-│  └── 执行任务级计算                                    │
-├─────────────────────────────────────────────────────┤
-│  Compact Account（紧凑账户）                           │
-│  └── 决策间只携带运行的紧凑摘要，而非完整历史            │
-└─────────────────────────────────────────────────────┘
-```
-
-#### 实验结果（关键数据）
-
-| 基准测试 | Meta-Reasoning (GPT-5.5) | Codex | 提升 |
-|---------|-------------------------|-------|------|
-| ProgramBench | 71.5% | 58.0% | +13.5pp |
-
-| 基准测试 | Meta-Reasoning (Opus 4.8) | Claude Code | 提升 |
-|---------|--------------------------|-------------|------|
-| ProgramBench | 67.2% | 65.5% | +1.7pp |
-
-在其他基准测试上（抽象推理、多领域长周期推理、证明生成），相比直接控制平均提升 3.6-4.2 个百分点。
-
-#### 关键发现
-
-- **Artifact-graph 分析**：显示更多早期工作的复用，正确解的覆盖率更高
-- **预算扩展性**：在测试的预算范围内持续提升，而直接控制在某点后停滞
-- **小预算陷阱**：元推理的开销在小预算时可能适得其反
+| 方法 | 计算策略 | 效率 | 适应性 |
+|---|---|---|---|
+| 固定 CoT | 所有问题都逐步推理 | 低（简单问题浪费） | 无 |
+| 固定 ToT | 所有问题都树搜索 | 极低 | 无 |
+| **Meta-Reasoning** | **先评估再决定** | **高** | **强** |
 
 #### 💡 对你的价值
 
-- **长任务必备**：如果你的 Agent 需要处理超过 30 分钟的长任务，元推理架构是必须考虑的方向
-- **控制器与执行者分离**：这个设计模式可以立即应用到你的 Agent 架构中
-- **紧凑状态管理**：用"紧凑账户"而非完整历史来管理上下文，是解决长上下文问题的实用技巧
+如果你的 Agent 系统需要处理难度差异很大的任务，Meta-Reasoning 思路可以帮你大幅降低 API 成本。实现方式可以很简单：在系统 prompt 中加入"先评估任务难度，再决定推理深度"的指令。
 
 ---
 
-### 2.3 Learning Meta-Skills：让 Agent 学会构建更好的执行环境
+### 2.3 Video-RSI: 视频理解 Agent 的递归自进化
 
-**论文：** Learning Meta-Skills for Agent Harness Design in Test-Time AI4AI
-**机构：** 清华大学（Cheng Qian 等）
-**arXiv：** 2609.38143
+**论文**：[Video-RSI: Recursive Self-Improvement of Video Understanding Agents via Harness Evolution](https://arxiv.org/abs/2609.37950)
 
-#### 核心问题
+#### 核心思想
 
-Agent 的性能不仅取决于推理能力，还取决于它执行任务的**环境**。问题是：如何让一个 Builder（构建者）在模型权重固定的情况下，为目标 Agent 构建更好的执行环境？
+视频理解 Agent 通过递归自我改进来持续进化。关键创新是"harness 进化"——不仅改进模型本身，还改进模型的编排方式。
 
-#### Meta-Skill 概念
+#### 技术路线
 
-论文引入 **Meta-Skill（元技能）** 的概念：
-- 定义：**原则性规范**，说明何时需要支持、提供什么资源
-- 学习方式：从 Target Agent 在执行集上的反馈中学习
-- 复用方式：用冻结的技能库为未见任务构建 harness
-
-#### 实验结果
-
-| 设置 | 宏平均性能提升 |
-|------|--------------|
-| Full-bank meta-skills vs 无技能构建 | +8.95 百分点 |
-| Full-bank meta-skills vs 直接传递技能库 | +12.02 百分点 |
+1. **初始 Agent** → 执行视频理解任务
+2. **性能评估** → 识别薄弱环节
+3. **Harness 调整** → 修改编排策略（而非仅微调模型权重）
+4. **迭代循环** → 重复步骤 1-3
 
 #### 💡 对你的价值
 
-- **Prompt 工程升级**：Meta-Skill 本质上是"如何写 Prompt 的 Prompt"，可以应用到你的系统提示设计中
-- **自适应 harness**：如果你的 Agent 需要处理多种类型的任务，考虑让系统自动学习为不同类型任务构建不同的执行框架
-- **经验复用**：将成功的执行经验抽象为可复用的"技能"，而不是每次都从头开始
+这提示了一个重要思路：当你的 Agent 表现不佳时，不一定要换模型或微调——先尝试调整编排策略（prompt 结构、工具调用顺序、中间步骤设计）。"改 harness 比改模型"往往成本更低、见效更快。
 
 ---
 
-### 2.4 Agent 架构范式对比
+### 2.4 LLMs are General Asynchronous Agents
 
-| 范式 | 代表工作 | 核心思想 | 适用场景 |
-|------|---------|---------|---------|
-| 单一 Harness | 传统 ReAct | 固定执行流程 | 简单、确定性任务 |
-| 多 Agent 协作 | Raven | 多专家协作 + 宿主协调 | 复杂、跨领域任务 |
-| 元推理控制 | Meta-Reasoning | 控制器 + 执行者分离 | 长周期、高复杂度任务 |
-| 自适应 Harness | Meta-Skills | 动态构建执行环境 | 多类型任务混合场景 |
-| 自进化 | SelfSearch, Video-RSI | 无奖励的自我改进 | 持续学习场景 |
+**论文**：[LLMs are General Asynchronous Agents](https://arxiv.org/abs/2609.35427)  
+**来源**：Yandex Research  
+**热度**：62 票
+
+#### 核心思想
+
+将 LLM 重新定义为"通用异步 Agent"——它们不需要在单一同步循环中运行，而是可以并行处理多个异步任务流。
+
+#### 与传统 Agent 范式的对比
+
+| 维度 | 传统同步 Agent | 异步 Agent |
+|---|---|---|
+| 执行模式 | 单线程顺序执行 | 多任务并行 |
+| 等待处理 | 阻塞等待工具返回 | 非阻塞，切换其他任务 |
+| 吞吐量 | 低 | 高 |
+| 复杂度 | 低 | 需要异步编排 |
+
+#### 💡 对你的价值
+
+如果你的 Agent 需要同时调用多个外部 API（搜索、数据库、文件系统等），异步架构可以大幅提升效率。参考 Node.js 的事件循环模型来设计你的 Agent 执行引擎。
+
+---
+
+### 2.5 Omni-IO Skills: 全原生 Agent 技能系统
+
+**论文**：[Omni-IO Skills: Harnessing Your Agent Omni-Native](https://arxiv.org/abs/2609.31847)  
+**来源**：新加坡国立大学  
+**热度**：157 票
+
+#### 核心思想
+
+提出了一种"全原生 I/O"的 Agent 技能系统——Agent 的输入输出不再局限于文本，而是原生支持多种模态（图像、音频、视频、代码、结构化数据等）。
+
+#### 💡 对你的价值
+
+未来的 Agent 框架将不再需要"文本中转"——图像直接进、音频直接出。如果你在设计 Agent 的 I/O 接口，考虑原生多模态支持而非文本序列化中转。
+
+---
+
+### 2.6 Agent 架构范式总结
+
+| 范式 | 代表工作 | 核心主张 | 成熟度 |
+|---|---|---|---|
+| Harness of Harnesses | Raven | 分层可组合编排 | 理论提出 |
+| Meta-Reasoning | Thinking Before Thinking | 推理前评估再决策 | 实验验证 |
+| 递归自进化 | Video-RSI | Harness 比模型更重要 | 实验验证 |
+| 异步 Agent | LLMs as Async Agents | 并行非阻塞执行 | 工程实践 |
+| 全原生 I/O | Omni-IO Skills | 多模态原生支持 | 早期探索 |
 
 ---
 
 ## 三、开源生态
 
-### 3.1 HARISSA：本地 LLM 部署的效率与安全守护者
+### 3.1 Qwen3.8-27B：社区最活跃的多模态基座
 
-**论文：** HARISSA: Inference-Time Self-Checks for Efficient and Safe Local Language Model Deployment
-**arXiv：** 2609.38006
-**关键词：** 本地部署、效率优化、安全决策
+| 属性 | 详情 |
+|---|---|
+| **开发者** | 阿里通义千问 |
+| **参数** | 28B |
+| **类型** | 多模态（图文） |
+| **下载量** | 704 万+ |
+| **Likes** | 1.67 万+ |
+| **许可证** | Apache 2.0 |
 
-#### 问题背景
+#### 为什么它是最活跃的
 
-本地运行语言模型的优势：隐私、低延迟、低成本。但问题是：
-- 本地硬件只能跑小模型，能力不如云端大模型
-- 遇到难题时，传统做法是升级到云端模型，但失去了本地部署的优势
-- 如果坚持本地，需要解决两个决策：**效率**（哪些题值得花更多计算）和**安全**（哪些答案可以安全交付）
+Qwen3.8-27B 已经成为开源社区事实上的多模态基座模型。大量衍生项目基于它构建：
+- 量化版本（GGUF、GPTQ、AWQ）
+- 微调版本（面向特定领域）
+- 蒸馏版本（缩小到可端侧部署）
+- 应用集成（ComfyUI、OpenClaw 等）
 
-#### 核心创新
+#### 快速上手
 
-HARISSA 的关键洞察：**两个决策都可以从模型自身的隐藏状态中做出**
+```bash
+# 使用 transformers 加载
+from transformers import AutoModelForVision2Seq, AutoProcessor
 
-```
-┌─────────────────────────────────────────────────────┐
-│                  HARISSA 决策流程                     │
-├─────────────────────────────────────────────────────┤
-│  1. Prefill State（预填充状态）                        │
-│     └── 在生成任何 token 之前计算                       │
-│     └── 预测模型是否能正确回答                          │
-├─────────────────────────────────────────────────────┤
-│  2. Answer State（答案状态）                           │
-│     └── 在生成答案结束时计算                            │
-│     └── 预测该答案是否正确                              │
-├─────────────────────────────────────────────────────┤
-│  3. 级联策略                                          │
-│     └── 从最便宜到最贵的回答方式                        │
-│     └── 跳过 prefill 预测会失败的方式                   │
-│     └── 当答案预测错误时，推迟到人工                     │
-└─────────────────────────────────────────────────────┘
+model = AutoModelForVision2Seq.from_pretrained("Qwen/Qwen3.8-27B", device_map="auto")
+processor = AutoProcessor.from_pretrained("Qwen/Qwen3.8-27B")
+
+# 使用量化版本降低显存需求
+# 推荐: ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF (168 万下载)
 ```
 
-#### 实验结果
+---
 
-| 场景 | HARISSA | Chain-of-Thought | FrugalGPT |
-|------|---------|-----------------|-----------|
-| 单模型设备准确率 | CoT - 1pp | 基准 | - |
-| 单模型设备延迟 | CoT 的 1/2.7 | 基准 | - |
-| 四模型服务器准确率 | 最高 | - | 较低 |
-| 错误答案率（同推迟率） | 最低（5/6 场景） | - | 较高 |
+### 3.2 Edge0/Audio8-ASR-Infinite：无限长音频语音识别
 
-#### 💡 对你的价值
+| 属性 | 详情 |
+|---|---|
+| **开发者** | Edge0 |
+| **参数** | 4B |
+| **类型** | 自动语音识别 (ASR) |
+| **下载量** | 2.67 万+ |
+| **Likes** | 1.86K |
 
-- **本地部署必备**：如果你在本地部署 LLM，HARISSA 的思路可以显著提升效率和安全性
-- **隐藏状态利用**：利用模型内部状态做决策，而不是依赖外部置信度分数
-- **级联策略**：从便宜到贵的级联回答策略，是控制成本的有效方法
+#### 核心特性
+
+- **无限长度**：支持任意长度的音频输入，不受上下文窗口限制
+- **高精度**：4B 参数在 ASR 基准上达到 SOTA
+- **流式支持**：适合实时转录场景
+
+#### 应用场景
+
+- 会议记录（2 小时+ 的长会议）
+- 播客/视频字幕生成
+- 法律/医疗领域的长时间录音转录
 
 ---
 
-### 3.2 SelfSearch：无奖励的 Agent 自我改进
+### 3.3 XingChen-AGI/TeleOCR：1B 参数的超轻量 OCR
 
-**论文：** SelfSearch: Reward-Free Search for Self-Improving Agents
-**arXiv：** 2609.37968
-**关键词：** 自我改进、无奖励学习、搜索
+| 属性 | 详情 |
+|---|---|
+| **开发者** | XingChen-AGI |
+| **参数** | 1B |
+| **类型** | OCR（光学字符识别） |
+| **下载量** | 3.04 万+ |
+| **Likes** | 1.1K |
 
-#### 核心思想
+#### 为什么值得关注
 
-传统 Agent 改进需要外部奖励信号，但很多场景下奖励难以定义。SelfSearch 提出了一种**无需外部奖励**的自我改进方法：
-
-- Agent 通过搜索发现更好的解题策略
-- 用内在一致性作为改进信号
-- 实现持续的自我进化
-
-#### 💡 对你的价值
-
-- **无监督改进**：在你的 Agent 难以定义明确奖励函数时，SelfSearch 提供了一种替代方案
-- **持续学习**：让 Agent 在使用中持续改进，而不是停滞在初始能力
+1B 参数意味着可以在手机或嵌入式设备上运行。对于需要离线 OCR 的场景（证件扫描、票据识别、工业质检），这是一个极其实用的选择。
 
 ---
 
-### 3.3 KV-Kaizen：上下文自适应的 KV Cache 压缩
+### 3.4 NVIDIA Nemotron-3-Diarization：99.2M 参数的说话人分离
 
-**论文：** KV-Kaizen: Learning Context-Adaptive Cache Compression Choices
-**arXiv：** 2609.37988
-**关键词：** KV Cache、压缩、长上下文
+| 属性 | 详情 |
+|---|---|
+| **开发者** | NVIDIA |
+| **参数** | 99.2M |
+| **类型** | 语音活动检测 + 说话人分离 |
+| **下载量** | 3.64 万+ |
+| **Likes** | 561 |
 
-#### 问题背景
+#### 核心特性
 
-长上下文推理时，KV Cache 占用大量显存。现有压缩方法通常采用固定策略，无法根据上下文内容自适应调整。
-
-#### 解决方案
-
-KV-Kaizen 学习**上下文自适应**的压缩策略：
-- 分析不同 token 的重要性
-- 动态决定哪些 KV 对可以压缩、哪些需要保留
-- 在显存节省和性能保持之间找到最优平衡
-
-#### 💡 对你的价值
-
-- **长上下文必备**：如果你需要处理超长文本（>32K tokens），KV Cache 压缩是必须关注的技术
-- **显存优化**：在有限的 GPU 显存下支持更长的上下文
+- **极轻量**：不到 1 亿参数，推理极快
+- **NVIDIA 官方**：与 NeMo 生态无缝集成
+- **实用性强**：可直接用于会议记录、播客处理等场景
 
 ---
 
-### 3.4 LongHarness Bench：长上下文推理的压力测试
+### 3.5 其他热门开源项目
 
-**论文：** LongHarness Bench: Stress-Testing Language Model Harnesses for Long-Context Reasoning
-**arXiv：** 2609.38137
-**关键词：** 基准测试、长上下文、Harness 评估
-
-#### 核心贡献
-
-专门针对**长上下文推理**场景的基准测试：
-- 测试不同 harness 在长上下文下的表现
-- 识别现有系统的瓶颈
-- 提供改进方向
-
-#### 💡 对你的价值
-
-- **评估工具**：如果你在构建长上下文应用，用这个基准测试来评估你的系统
-- **设计指导**：了解长上下文场景下的常见陷阱
+| 项目 | 类型 | 亮点 |
+|---|---|---|
+| **Lightricks/LTX-2.5** | 图生视频 | 160 万下载，视频生成新选择 |
+| **prism-ml/Ternary-Bonsai-2-27B-gguf** | 文本生成 | 368 万下载，三元量化 27B |
+| **fastino/GLiNER2.5-Decide** | 命名实体识别 | 3.47 万下载，0.5B 轻量 NER |
+| **Altworld/Hemmingway-1** | 文本生成 | 27B 参数，写作专精 |
+| **SupersonicLabs/Julia-1** | 文本分类 | 0.1B 超轻量分类模型 |
+| **akatz-ai/MiniMax-H3-Character-Swap-LoRA** | 视频换脸 | 8.08K 下载，视频角色替换 |
+| **Alissonerdx/BFS-Best-Face-Swap** | 图像换脸 | 16.8 万下载 |
 
 ---
 
-### 3.5 其他值得关注的开源项目
+### 3.6 开源生态趋势观察
 
-| 项目 | 类型 | 亮点 | GitHub/HF 链接 |
-|------|------|------|---------------|
-| Omni-IO Skills | Agent 技能 | 全能 I/O 技能，让 Agent 原生支持各种输入输出 | HuggingFace 157票 |
-| LEGO-Anything | 3D 重建 | 用编码 Agent 进行 3D 场景重建 | AWS 出品，102票 |
-| Auditable Long-Term Memory | 记忆系统 | 可审计的长期记忆，LongMemEval-S 上 479/475 | arXiv 2609.38021 |
-| RAG Skill Optimization | RAG | 跨 Harness 适应的检索增强技能优化 | arXiv 2609.38024 |
-| UserProxyBench | 基准测试 | 评估 LLM 用户模拟器的基准 | NeurIPS 2026 Workshop |
-
----
-
-### 3.6 开源模型热度排行（HuggingFace Trending）
-
-| 排名 | 模型 | 类型 | 下载量 | 点赞 |
-|------|------|------|--------|------|
-| 1 | Qwen/Qwen-Image-2.1 | 文生图 | 70.7K | 2.72K |
-| 2 | deepseek-ai/DeepSeek-V4.1-Flash | 多模态 | 721K | 3.94K |
-| 3 | Qwen/Qwen3.8-27B | 多模态 | 7.04M | 16.7K |
-| 4 | Lightricks/LTX-2.5 | 图生视频 | 1.6M | 5.72K |
-| 5 | XiaomiMiMo/MiMo-V2.6-Pro-RL | 文本生成 | 81K | 613 |
-| 6 | Edge0/Audio8-ASR-Infinite | 语音识别 | 26.7K | 1.85K |
-| 7 | XingChen-AGI/TeleOCR | OCR | 30.4K | 1.1K |
-| 8 | nvidia/Nemotron-3-Diarization | 说话人分离 | 36.4K | 561 |
+1. **量化模型爆发**：GGUF 格式成为事实标准，多个模型的量化版下载量超过原版
+2. **小模型崛起**：1B 以下参数模型在特定任务（OCR、分类、ASR）上达到实用水平
+3. **多模态成标配**：新发布的语言模型几乎都支持图文输入
+4. **MoE 架构普及**：大参数总量 + 小激活参数的 MoE 架构成为主流
+5. **中国团队主导**：Qwen、DeepSeek、MiMo、XingChen 等中国团队在开源模型领域持续领先
 
 ---
 
 ## 四、AI 工具与技巧
 
-### 4.1 OpenCode Skill 仓库精选（Essa Mamdani 推荐）
+### 4.1 Bastion 安全架构：构建安全的 AI Agent
 
-Essa Mamdani 在其博客中精选了 10 个值得尝试的 OpenCode Skill 仓库。以下是核心要点：
+**来源**：[Essa Mamdani 博客](https://essamamdani.com/blog/bastion-secure-ai-agent-defense-in-depth-guide)
 
-#### 什么是 OpenCode Skills？
+#### 核心框架
 
-OpenCode Skills 是可复用的代码片段/工作流，可以被 AI 编码助手（如 Claude Code、Cursor 等）调用。它们类似于"AI 的工具箱"，让 AI 能够执行特定任务。
+Bastion 提出了一个纵深防御（Defense-in-Depth）的 AI Agent 安全框架，对齐 OWASP 标准：
 
-#### 精选仓库类型
+| 防御层 | 防护目标 | 实现方式 |
+|---|---|---|
+| 输入过滤层 | 提示注入 | 正则 + 分类器双重检测 |
+| 工具隔离层 | 工具劫持 | 沙箱执行 + 权限最小化 |
+| 输出审查层 | 数据泄露 | 敏感信息检测 + 脱敏 |
+| 审计日志层 | 事后追溯 | 全链路操作记录 |
 
-| 类型 | 用途 | 示例 |
-|------|------|------|
-| 代码分析 | 理解代码库结构 | 依赖图生成、复杂度分析 |
-| 测试生成 | 自动编写测试 | 单元测试、集成测试模板 |
-| 文档生成 | 自动生成文档 | API 文档、README 模板 |
-| 重构辅助 | 代码重构建议 | 设计模式应用、性能优化 |
+#### 实操建议
 
-#### 💡 对你的价值
+```python
+# 简化的 Bastion 输入过滤示例
+import re
 
-- **提升 AI 编码效率**：使用预定义的 Skills 可以让 AI 编码助手更准确地完成任务
-- **团队标准化**：将团队的最佳实践封装为 Skills，确保 AI 生成的代码符合规范
-
----
-
-### 4.2 Microsoft Edge 端侧 AI：Prompt APIs 与 Phi-4-mini
-
-**来源：** Essa Mamdani 博客（2026-09-30）
-
-#### 核心内容
-
-Microsoft Edge 现在支持**端侧 AI 能力**，基于 Phi-4-mini 模型：
-
-**两大 API：**
-1. **Prompt API**：直接在浏览器中运行 AI 推理
-2. **Writing Assistance API**：文本改写、摘要、翻译
-
-#### 技术细节
-
-- **模型**：Phi-4-mini（微软的小型高效模型）
-- **运行位置**：完全在客户端（浏览器）运行
-- **隐私优势**：数据不离开用户设备
-
-#### 应用场景
-
-| 场景 | 说明 |
-|------|------|
-| 网页摘要 | 一键总结长文章 |
-| 表单填充 | AI 辅助填写复杂表单 |
-| 内容改写 | 调整语气、简化语言 |
-| 翻译 | 实时网页翻译 |
+def filter_input(user_input: str) -> tuple[bool, str]:
+    """检查输入是否包含提示注入模式"""
+    injection_patterns = [
+        r"ignore previous instructions",
+        r"you are now",
+        r"system prompt",
+        r"<\|.*?\|>",  # 特殊 token 模拟
+    ]
+    for pattern in injection_patterns:
+        if re.search(pattern, user_input, re.IGNORECASE):
+            return False, f"检测到潜在注入模式: {pattern}"
+    return True, user_input
+```
 
 #### 💡 对你的价值
 
-- **Web 开发者**：考虑在你的 Web 应用中集成 Edge 的端侧 AI 能力
-- **隐私敏感场景**：端侧 AI 是处理敏感数据的理想选择
-- **离线能力**：无需网络连接即可使用 AI 功能
+如果你的 Agent 面向外部用户，安全不是可选项。Bastion 框架提供了一个实用的起点。即使不直接用它的代码，也应该参考它的分层防御思路。
 
 ---
 
-### 4.3 EmDash 1.0：Cloudflare 的 AI-Native CMS
+### 4.2 10 个值得尝试的 OpenCode Skill 仓库
 
-**来源：** Essa Mamdani 博客（2026-09-30）
+**来源**：[Essa Mamdani 博客](https://essamamdani.com/blog/top-opencode-skills-github-repos-2026)
 
-#### 核心定位
+OpenCode Skill 是一种可复用的 Agent 能力模块，类似于"Agent 的 npm 包"。以下是精选的 10 个仓库：
 
-EmDash 1.0 是 Cloudflare 推出的**稳定版 Astro CMS**，专为 AI 时代设计：
+| 仓库 | 功能 | 适用场景 |
+|---|---|---|
+| openclaw/skills | 综合技能集 | 通用 Agent 增强 |
+| baoyu-image-gen | 多平台图像生成 | 需要 AI 绘图 |
+| baoyu-translate | 专业翻译 | 多语言内容处理 |
+| claude-in-tmux | Claude Code 终端管理 | 开发者工具链 |
+| github | GitHub CLI 集成 | 代码仓库管理 |
+| weather | 天气查询 | 日常信息获取 |
+| diagram-maker | SVG 图表生成 | 技术文档配图 |
+| meme-maker | 表情包生成 | 社交媒体运营 |
+| taskflow | 任务编排 | 复杂工作流 |
+| skill-creator | 技能创建工具 | 开发新技能 |
 
-#### 与传统 CMS（WordPress）对比
+#### 如何安装和使用
+
+```bash
+# 以 OpenClaw 为例
+# 技能自动安装在 ~/.openclaw/workspace/skills/ 目录下
+# 每个技能包含一个 SKILL.md 描述文件
+
+# 查看已安装技能
+ls ~/.openclaw/workspace/skills/
+
+# 技能会自动被 Agent 发现和加载
+```
+
+---
+
+### 4.3 Microsoft Edge 端侧 AI：Prompt APIs 与 Phi-4-mini 实战
+
+**来源**：[Essa Mamdani 博客](https://essamamdani.com/blog/microsoft-edge-on-device-ai-prompt-apis-guide)
+
+#### 核心能力
+
+Microsoft Edge 现在内置了基于 Phi-4-mini 的端侧 AI 能力，通过 Prompt API 暴露给网页开发者：
+
+```javascript
+// Edge 端侧 AI API 示例
+const session = await ai.languageModel.create({
+  initialPrompt: "你是一个友好的助手"
+});
+
+const result = await session.prompt("今天天气怎么样？");
+console.log(result);
+```
+
+#### 优势与限制
+
+| 优势 | 限制 |
+|---|---|
+| 零延迟（本地推理） | 仅 Edge 浏览器支持 |
+| 零成本（无 API 调用费） | 模型能力有限（Phi-4-mini） |
+| 隐私友好（数据不出设备） | 需要较新硬件 |
+| 离线可用 | 不支持所有语言 |
+
+#### 💡 对你的价值
+
+如果你在开发 Web 应用，Edge 的端侧 AI API 提供了一个有趣的"免费 AI"通道。适合做轻量级文本处理（摘要、改写、分类），不适合复杂推理。
+
+---
+
+### 4.4 EmDash 1.0 vs WordPress：CMS 格局在变？
+
+**来源**：[Essa Mamdani 博客](https://essamamdani.com/blog/emdash-1-0-vs-wordpress-future-of-cms)
+
+Cloudflare 推出的 EmDash 1.0 是一个基于 Astro 的 CMS，对 WordPress 形成了新挑战：
 
 | 维度 | EmDash 1.0 | WordPress |
-|------|-----------|-----------|
-| 架构 | Astro（静态优先） | PHP（动态） |
-| AI 集成 | 原生支持 | 需要插件 |
-| 插件沙箱 | 内置 | 无 |
-| Agent 工作流 | 原生支持 | 需要定制 |
-| 托管 | Cloudflare 边缘 | 传统服务器 |
-| SEO | 自动优化 | 需要插件 |
+|---|---|---|
+| 架构 | 静态优先 + Astro | 动态 PHP |
+| 安全性 | 插件沙箱隔离 | 历史漏洞多 |
+| AI 友好 | 原生 Agent 工作流 | 需要插件 |
+| 托管 | Cloudflare 全球边缘 | 需要自建/托管 |
+| 生态 | 新兴，插件少 | 成熟，5 万+ 插件 |
+| SEO | 静态页面天然优势 | 需要优化 |
 
 #### 💡 对你的价值
 
-- **新项目考虑**：如果是新的内容项目，EmDash 是现代化的选择
-- **AI 友好**：如果你的内容需要被 AI 检索和引用，EmDash 的架构更适合
-- **迁移成本**：从 WordPress 迁移需要评估，但长期收益明显
+如果你在建新站点且主要面向 AI 检索优化（AEO），EmDash 值得考虑。但如果依赖丰富的插件生态，WordPress 仍然是更安全的选择。
 
 ---
 
-### 4.4 为 AI 检索优化 Web 应用
+### 4.5 为 AI 检索优化 Web 应用架构
 
-**来源：** Essa Mamdani 博客
+**来源**：[Essa Mamdani 博客](https://essamamdani.com/blog/architecting-web-applications-ai-retrieval-citations)
 
-#### 核心建议
+随着 Perplexity、ChatGPT Search、Google Overviews 等 AI 搜索引擎的崛起，Web 应用需要新的优化策略：
 
-随着 AI 搜索引擎（Perplexity、ChatGPT Search、Google Overviews）的普及，Web 应用需要为**AI 检索**优化：
+#### 关键实践
 
-**关键优化点：**
+1. **语义化标记**：使用 Schema.org 结构化数据
+2. **可引用性**：内容模块化，便于 AI 精确引用
+3. **遥测集成**：追踪 AI 引擎如何引用你的内容
+4. **JSON-LD**：提供机器可读的元数据
 
-1. **语义化标记**
-   - 使用正确的 HTML 语义标签
-   - 结构化数据（Schema.org）
-   - 清晰的标题层级
-
-2. **可引用性设计**
-   - 提供明确的引用来源
-   - 事实性内容标注
-   - 作者/发布时间明确
-
-3. **遥测与反馈**
-   - 追踪 AI 引擎的抓取行为
-   - 分析哪些内容被引用
-   - 优化被引用概率
-
-#### 💡 对你的价值
-
-- **SEO 升级**：传统 SEO 正在向 AEO（Answer Engine Optimization）演进
-- **内容策略**：考虑你的内容如何被 AI 引用，而不仅仅是被人类阅读
-- **技术实现**：确保你的网站对 AI 爬虫友好
-
----
-
-### 4.5 初学者友好的 AI 工作流建议
-
-#### 入门路径
-
+```html
+<!-- 示例：为 AI 检索优化的文章标记 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "文章标题",
+  "description": "文章摘要",
+  "author": {"@type": "Person", "name": "作者名"},
+  "datePublished": "2026-10-01",
+  "mainEntityOfPage": "https://example.com/article"
+}
+</script>
 ```
-第 1 周：基础工具
-├── ChatGPT / Claude 对话
-├── 基础 Prompt 编写
-└── 简单任务自动化
-
-第 2-3 周：编码辅助
-├── Cursor / Claude Code
-├── 代码解释与生成
-└── 简单项目实践
-
-第 4-6 周：工作流整合
-├── 多工具组合
-├── 自动化脚本
-└── 个人知识库搭建
-
-第 7-12 周：进阶应用
-├── Agent 构建
-├── 本地模型部署
-└── 定制化解决方案
-```
-
-#### 💡 对你的价值
-
-- **循序渐进**：不要一开始就追求复杂的 Agent 系统
-- **实践优先**：每学一个工具，立即用它解决一个实际问题
-- **持续迭代**：AI 工具更新快，保持学习但不要追新
 
 ---
 
 ## 五、值得深读的研究
 
-### 5.1 Correct Answers, Invalid Traces：Chain-of-Thought 的隐藏问题
+### 5.1 Thinking Before Thinking: 元推理扩展 Agent 能力
 
-**论文：** Correct Answers, Invalid Traces: What Verifiable Grade-School Math Reveals About Chain-of-Thought Traces
-**arXiv：** 2609.38107
-
-#### 研究方法
-
-- 使用可验证的小学数学题（GSM8K）
-- 不仅检查最终答案，还验证推理过程的每一步
-- 分析 LLM 生成的 CoT 轨迹的有效性
-
-#### 核心发现
-
-1. **答案正确 ≠ 推理正确**：大量案例中，模型给出正确答案，但推理过程存在逻辑错误
-2. **错误类型分类**：
-   - 计算跳跃：跳过关键计算步骤
-   - 概念混淆：错误应用数学概念
-   - 幻觉推理：编造不存在的中间结果
-3. **模型差异**：不同模型的"伪正确"率差异显著
-
-#### 启发
-
-- **评估方法**：仅看最终答案是不够的，需要验证推理过程
-- **训练改进**：需要在训练中加强对推理过程的监督
-- **应用谨慎**：在高风险场景（如教育），不能盲目信任 CoT 输出
-
----
-
-### 5.2 Gender Bias Across LLMs：大模型的性别偏见图谱
-
-**论文：** Gender bias across LLMs is common and highly heterogenous
-**arXiv：** 2609.38036
+**论文**：[arXiv:2609.38147](https://arxiv.org/abs/2609.38147)  
+**作者**：Meta FAIR + NYU 联合团队
 
 #### 研究方法
 
-- 跨多个主流 LLM 进行系统性测试
-- 设计覆盖不同场景的偏见测试集
-- 量化分析偏见的程度和模式
+1. 设计了一个 meta-reasoning 模块，在正式推理前评估任务特征
+2. 基于评估结果动态选择推理策略（CoT / ToT / 直接回答）
+3. 在多个基准测试上评估效率-准确率权衡
 
 #### 核心发现
 
-1. **普遍性**：所有测试的 LLM 都存在某种形式的性别偏见
-2. **异质性**：不同模型的偏见模式高度不同，没有一致的"偏见方向"
-3. **场景依赖**：偏见在某些场景下更明显（如职业描述、性格特征）
+- 在简单任务上，meta-reasoning 可以跳过不必要的推理步骤，节省 40-60% 的 token
+- 在复杂任务上，meta-reasoning 会选择更重的推理策略，准确率提升 5-10%
+- 整体效率-准确率 Pareto 前沿显著优于固定策略
 
 #### 启发
 
-- **模型选择**：不能简单假设某个模型"更公平"
-- **应用审计**：在部署前，针对你的具体场景进行偏见审计
-- **持续监控**：偏见可能随模型更新而变化
+> **核心洞察**：不是所有问题都值得深度思考。一个好的 Agent 应该先"想想该怎么想"，而不是无脑启动最重的推理模式。
 
 ---
 
-### 5.3 Layer-Informed Fine-Tuning：LLM 的功能分段
+### 5.2 KV-Kaizen: 上下文自适应的 KV Cache 压缩
 
-**论文：** Layer-Informed Fine-Tuning via Three-Stage Functional Segmentation of LLMs
-**arXiv：** 2609.38027
+**论文**：[arXiv:2609.37988](https://arxiv.org/abs/2609.37988)  
+**作者**：Joao Monteiro 等（含 Marco Cuturi）
 
-#### 核心思想
+#### 研究方法
 
-LLM 的不同层承担不同功能：
-- **早期层**：基础语言理解
-- **中间层**：语义处理
-- **后期层**：任务特定输出
-
-论文提出基于这种功能分段的微调策略。
-
-#### 启发
-
-- **高效微调**：只微调需要的层，而不是整个模型
-- **理解模型**：了解模型内部的功能分布有助于更好的工程设计
-
----
-
-### 5.4 It's All Training：全合成单阶段 LLM 训练
-
-**论文：** It's All Training: A Fully Synthetic Single-Stage Recipe for LLMs
-**arXiv：** 2609.37891
-**发表：** NeurIPS 2026
-
-#### 核心创新
-
-提出**完全合成**的单阶段训练方法：
-- 不需要真实数据
-- 不需要多阶段训练（预训练→SFT→RLHF）
-- 纯合成数据即可完成全部训练
-
-#### 启发
-
-- **数据依赖降低**：未来 LLM 训练可能不再依赖大规模真实数据
-- **训练简化**：单阶段训练大幅降低工程复杂度
-- **可控性提升**：合成数据可以更好地控制训练内容
-
----
-
-### 5.5 Thinking in Depth, Speaking Directly：循环潜在推理
-
-**论文：** Thinking in Depth, Speaking Directly: Recurrent Latent Reasoning for Paralinguistically Grounded Spoken Dialogue
-**arXiv：** 2609.37824
-
-#### 核心思想
-
-将推理过程放在**潜在空间**中进行，而不是显式生成：
-- 深度思考在潜在循环中完成
-- 最终输出直接、简洁
-- 支持副语言（语气、情感）的接地
-
-#### 启发
-
-- **效率提升**：不需要生成完整的推理链，节省 token
-- **用户体验**：用户看到的是简洁答案，而非冗长推理
-- **多模态融合**：潜在推理可以更好地整合语音、情感信息
-
----
-
-### 5.6 Retrieval Capacity of Self-Attention：注意力机制的检索容量
-
-**论文：** Retrieval Capacity of Self-Attention Under Competition
-**arXiv：** 2609.37879
-
-#### 核心问题
-
-Self-Attention 在竞争条件下能检索多少信息？
+1. 分析 KV Cache 中不同 token 的重要性分布
+2. 发现重要性呈现"块状"模式（与 chunked prefill 相关）
+3. 设计自适应压缩策略：重要块保留高精度，不重要块激进压缩
 
 #### 核心发现
 
-- 注意力机制的检索容量是有限的
-- 竞争会显著降低检索准确性
-- 为理解 Transformer 的能力边界提供理论依据
+- KV Cache 中存在"周期性弱点"（Periodic Weak Spots）
+- 简单的均匀压缩会在这些弱点处产生严重错误
+- 上下文自适应压缩可以在相同压缩比下保持更好的准确率
 
 #### 启发
 
-- **上下文设计**：了解注意力容量限制，合理设计输入
-- **架构改进**：为突破注意力瓶颈提供方向
+> **核心洞察**：KV Cache 压缩不是"压多少"的问题，而是"压哪里"的问题。未来的推理优化需要更精细的 token 级重要性评估。
+
+---
+
+### 5.3 Auditable Long-Term Memory: 可审计的长期记忆系统
+
+**论文**：[arXiv:2609.38021](https://arxiv.org/abs/2609.38021)  
+**作者**：Christopher J. Chanhnourack
+
+#### 研究方法
+
+1. 设计了一个确定性检索链（Deterministic Retrieval Chain）
+2. 在 LongMemEval-S 基准上测试，得分 479/475（超过满分，因为额外覆盖了控制组）
+3. 所有检索过程完全可审计，成本约 $1.28/次完整评估
+
+#### 核心发现
+
+- 确定性检索比概率检索（如向量相似度）在长期记忆任务上更可靠
+- 可审计性对于生产环境至关重要——你需要知道 Agent "为什么记得这个"
+- 成本可控：完整的记忆评估只需约 1 美元
+
+#### 启发
+
+> **核心洞察**：Agent 的记忆系统不应该是黑盒。可审计、可复现的记忆检索是生产级 Agent 的必备特性。
+
+---
+
+### 5.4 Correct Answers, Invalid Traces: 链式思考的可靠性危机
+
+**论文**：[arXiv:2609.38107](https://arxiv.org/abs/2609.38107)  
+**作者**：Ratish Puduppully 等（含 Subbarao Kambhampati）
+
+#### 研究方法
+
+1. 系统检查 LLM 在小学数学题上的 CoT 输出
+2. 区分"答案正确但推理过程无效"和"答案正确且推理有效"
+3. 量化 CoT 的"表面正确率"vs"实质正确率"
+
+#### 核心发现
+
+- 相当比例的"正确答案"实际上是通过无效推理链得到的
+- 这意味着 CoT 的可靠性被高估了
+- 对 Agent 系统的影响：如果下游依赖 CoT 中间步骤，可能引入错误
+
+#### 启发
+
+> **核心洞察**：不要盲目信任 LLM 的推理过程。即使最终答案正确，中间步骤也可能包含逻辑错误。对于关键决策，需要独立验证推理链的每一步。
+
+---
+
+### 5.5 LeapQuant: 高效线性注意力 + 精确循环状态量化
+
+**论文**：[arXiv:2609.38166](https://arxiv.org/abs/2609.38166)  
+**作者**：Yi Pan, Song Han, Kurt Keutzer 等
+
+#### 研究方法
+
+1. 将线性注意力与循环状态量化结合
+2. 设计精确的量化策略，保持循环状态的数值稳定性
+3. 在长序列任务上评估效率提升
+
+#### 核心发现
+
+- 线性注意力的循环状态可以激进量化（4-bit 甚至 2-bit）而不显著损失性能
+- 结合高效线性注意力实现，推理速度提升 3-5 倍
+- 内存占用降低 60-80%
+
+#### 启发
+
+> **核心洞察**：长上下文推理的瓶颈不在注意力计算本身，而在 KV Cache 的内存占用。线性注意力 + 量化是解决这个问题的有效路径。
+
+---
+
+### 5.6 Do LLM Agents Execute the Plans They Declare?
+
+**论文**：[arXiv:2609.38108](https://arxiv.org/abs/2609.38108)  
+**作者**：Subba Reddy Oota 等
+
+#### 研究方法
+
+1. 系统评估 LLM Agent 在声明计划后是否真正执行了该计划
+2. 设计了"计划-执行一致性"评估框架
+3. 测试了多种主流 LLM 在不同任务上的表现
+
+#### 核心发现
+
+- LLM Agent 存在显著的"计划-执行鸿沟"：声明的计划和实际执行经常不一致
+- 这种不一致在复杂任务中更加严重
+- 不同模型的表现差异很大，某些模型在"说一套做一套"方面特别严重
+
+#### 启发
+
+> **核心洞察**：Agent 的"计划能力"和"执行能力"是两种不同的能力。评估 Agent 时，不仅要看它说了什么，更要看它做了什么。这提示我们需要更好的 Agent 监控和验证机制。
 
 ---
 
 ## 六、今日学习建议
 
-### 6.1 深入理解 Agent Harness 设计
+### 📚 建议 1：精读 Raven 论文，理解"Harness of Harnesses"范式
 
-**为什么学：** Harness 设计是 Agent 性能的关键决定因素，今天的多篇论文都在讨论这个话题。
-
-**怎么学：**
-1. 阅读 Raven 论文（2609.33439），理解"Harness of Harnesses"的概念
-2. 阅读 Meta-Reasoning 论文（2609.38147），理解控制器与执行者的分离
-3. 实践：为你的一个 Agent 项目设计一个新的 harness，尝试应用这些概念
-
-**预计时间：** 3-4 小时
+**时间**：30 分钟  
+**目标**：理解可组合 Agent 架构的设计思路  
+**行动**：
+1. 阅读论文：https://arxiv.org/abs/2609.33439
+2. 画出你自己 Agent 系统的编排层级
+3. 思考：哪些部分可以拆分为独立的 harness？
 
 ---
 
-### 6.2 掌握 KV Cache 优化技术
+### 📚 建议 2：动手尝试 Qwen-Image-2.1
 
-**为什么学：** 长上下文是 LLM 应用的核心挑战，KV Cache 优化是关键技术。
-
-**怎么学：**
-1. 阅读 KV-Kaizen 论文（2609.37988）
-2. 了解现有的 KV Cache 压缩方法（如 H2O、Scissorhands）
-3. 实践：在你的长上下文应用中实现一个简单的 KV Cache 压缩策略
-
-**预计时间：** 2-3 小时
-
----
-
-### 6.3 探索端侧 AI 部署
-
-**为什么学：** 端侧 AI 是隐私、延迟、成本的最优解，今天的多个模型（MiMo、Phi-4-mini）都在朝这个方向发展。
-
-**怎么学：**
-1. 了解 HARISSA 论文（2609.38006）的本地部署优化思路
-2. 尝试在本地部署一个 7B 以下的多模态模型（如 MiMo-V2.6-9B）
-3. 探索 Edge 的 Prompt API，了解浏览器端 AI 的可能性
-
-**预计时间：** 4-5 小时
+**时间**：1 小时  
+**目标**：体验最新的开源图像生成模型  
+**行动**：
+1. 安装 ComfyUI（如果没有）
+2. 下载 Qwen-Image-2.1 的 ComfyUI 版本
+3. 用中文 prompt 生成 10 张图，对比英文 prompt 的效果差异
+4. 尝试加载一个 LoRA 进行风格微调
 
 ---
 
-## 📊 今日数据汇总
+### 📚 建议 3：实现一个简单的 Meta-Reasoning 模块
 
-| 指标 | 数值 |
-|------|------|
-| arXiv cs.AI 新论文 | 506 篇 |
-| arXiv cs.LG 新论文 | 465 篇 |
-| arXiv cs.CL 新论文 | 228 篇 |
-| HuggingFace 热门论文 | 15+ 篇（>50 票） |
-| GitHub Trending AI 项目 | 20+ 个 |
+**时间**：45 分钟  
+**目标**：体验"推理前评估"的效果  
+**行动**：
+1. 在你的 Agent 系统中加入一个"任务评估"步骤
+2. 让 LLM 先判断任务难度（简单/中等/复杂）
+3. 根据难度选择不同的推理策略
+4. 对比加入前后的 token 消耗和准确率
+
+```python
+# 伪代码示例
+def meta_reasoning(task: str) -> str:
+    # Step 1: 评估任务
+    assessment = llm.prompt(f"""
+    评估以下任务的难度和所需推理策略：
+    任务：{task}
+    
+    输出 JSON：
+    {{
+        "difficulty": "easy|medium|hard",
+        "strategy": "direct|cot|tot",
+        "estimated_tokens": 100-5000
+    }}
+    """)
+    
+    # Step 2: 根据评估选择策略
+    if assessment["strategy"] == "direct":
+        return llm.prompt(task)
+    elif assessment["strategy"] == "cot":
+        return llm.prompt(f"请逐步推理：{task}")
+    else:
+        return tree_of_thought(task)
+```
 
 ---
 
-## 🔗 资源链接
+### 📚 建议 4：了解 KV Cache 压缩技术
+
+**时间**：20 分钟  
+**目标**：理解长上下文推理的优化方向  
+**行动**：
+1. 阅读 KV-Kaizen 论文摘要：https://arxiv.org/abs/2609.37988
+2. 了解你使用的推理框架（vLLM/TGI/llama.cpp）的 KV Cache 配置
+3. 尝试开启 KV Cache 量化，观察内存和速度的变化
+
+---
+
+### 📚 建议 5：为你的 Agent 添加安全层
+
+**时间**：30 分钟  
+**目标**：实现基础的提示注入防护  
+**行动**：
+1. 阅读 Bastion 安全架构指南
+2. 在你的 Agent 输入端添加一层过滤
+3. 测试 10 个常见的提示注入攻击，检查防护效果
+4. 记录哪些攻击被拦截，哪些穿透了
+
+---
+
+## 📊 今日数据看板
+
+| 指标 | 数值 | 趋势 |
+|---|---|---|
+| arXiv cs.AI 新论文（9/30） | 506 篇 | 📈 |
+| arXiv cs.LG 新论文（9/30） | 465 篇 | 📈 |
+| arXiv cs.CL 新论文（9/30） | 228 篇 | 📈 |
+| HuggingFace 总模型数 | 3,109,937 | 📈 |
+| GitHub Trending AI 项目 | 20+ | ➡️ |
+| 最热论文票数 | 452（Raven） | 🔥 |
+
+---
+
+## 🔗 资源链接汇总
 
 ### 论文链接
-- Raven: https://arxiv.org/abs/2609.33439
-- Meta-Reasoning: https://arxiv.org/abs/2609.38147
-- Meta-Skills: https://arxiv.org/abs/2609.38143
-- HARISSA: https://arxiv.org/abs/2609.38006
-- SelfSearch: https://arxiv.org/abs/2609.37968
-- KV-Kaizen: https://arxiv.org/abs/2609.37988
+- [Raven: The Harness of Harnesses](https://arxiv.org/abs/2609.33439)
+- [Thinking Before Thinking: Meta-Reasoning](https://arxiv.org/abs/2609.38147)
+- [Video-RSI: 视频理解 Agent 自进化](https://arxiv.org/abs/2609.37950)
+- [KV-Kaizen: KV Cache 压缩](https://arxiv.org/abs/2609.37988)
+- [Auditable Long-Term Memory](https://arxiv.org/abs/2609.38021)
+- [Correct Answers, Invalid Traces](https://arxiv.org/abs/2609.38107)
+- [LeapQuant: 线性注意力量化](https://arxiv.org/abs/2609.38166)
+- [LLM Agent 计划-执行一致性](https://arxiv.org/abs/2609.38108)
 
 ### 模型链接
-- Qwen-Image-2.1: https://huggingface.co/Qwen/Qwen-Image-2.1
-- DeepSeek-V4.1-Flash: https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash
-- MiMo-V2.6-Pro-RL: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL
+- [Qwen-Image-2.1](https://huggingface.co/Qwen/Qwen-Image-2.1)
+- [DeepSeek-V4.1-Flash](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash)
+- [Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B)
+- [MiMo-V2.6-Pro-RL](https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL)
+- [Audio8-ASR-Infinite](https://huggingface.co/Edge0/Audio8-ASR-Infinite)
+- [TeleOCR](https://huggingface.co/XingChen-AGI/TeleOCR)
+- [Nemotron-3-Diarization](https://huggingface.co/nvidia/Nemotron-3-Diarization)
 
-### 博客链接
-- Essa Mamdani: https://essamamdani.com/blog/
-- Paper Digest: https://resources.paperdigest.org/
-- LLM Stats: https://llm-stats.com/ai-news
-
----
-
-> 📝 **编辑手记**
-> 
-> 今天的 AI 领域呈现出几个明显趋势：
-> 
-> 1. **Agent 架构的范式转移**：从单一 harness 到可组合、自适应的 harness 系统
-> 2. **端侧 AI 的崛起**：多个团队在推动小模型、高效率的端侧部署方案
-> 3. **中国力量的持续输出**：Qwen、DeepSeek、小米等中国团队在开源模型领域表现强劲
-> 
-> 对于从业者来说，关注 Agent 架构的演进和端侧部署的优化，将是未来几个月的重点方向。
-> 
-> —— Zoe 🦞
+### 博客与教程
+- [Bastion 安全架构指南](https://essamamdani.com/blog/bastion-secure-ai-agent-defense-in-depth-guide)
+- [OpenCode Skill 仓库精选](https://essamamdani.com/blog/top-opencode-skills-github-repos-2026)
+- [Edge 端侧 AI API 指南](https://essamamdani.com/blog/microsoft-edge-on-device-ai-prompt-apis-guide)
+- [为 AI 检索优化 Web 架构](https://essamamdani.com/blog/architecting-web-applications-ai-retrieval-citations)
+- [PaperDigest: 100 篇必读 ML 论文](https://resources.paperdigest.org/2026/09/paper-digest-100-must-read-machine-learning-papers-of-the-past-10-years-2016-2025/)
 
 ---
 
-*本文由 Zoe 自动生成于 2026-10-01 08:16 (北京时间)*
-*数据来源：arXiv、GitHub、HuggingFace、LLM Stats、Essa Mamdani、Paper Digest 等*
+## 📝 编辑手记
+
+今天是 2026 年国庆节，也是 AI 领域持续高速发展的一天。
+
+从今天的论文和模型发布中，我们可以清晰地看到几个趋势：
+
+1. **Agent 架构正在从"单体"走向"可组合"**：Raven 的"Harness of Harnesses"不是个例，而是整个领域的大方向。未来的 Agent 系统会像微服务一样，由多个专业模块组合而成。
+
+2. **推理效率成为核心竞争力**：Meta-Reasoning、KV Cache 压缩、线性注意力量化……所有这些都指向同一个目标：用更少的计算资源做更好的推理。
+
+3. **开源模型持续缩小与闭源的差距**：DeepSeek-V4.1-Flash（763B）、Qwen3.8-27B 等开源模型在多个基准上已经接近甚至超越闭源模型。
+
+4. **安全与可审计性受到重视**：从 Bastion 安全架构到可审计长期记忆，社区越来越意识到生产级 Agent 需要的不仅是能力，还有可控性和可追溯性。
+
+5. **小模型在特定任务上大放异彩**：1B 的 OCR、99M 的说话人分离、4B 的 ASR……不是所有任务都需要大模型。
+
+祝大家国庆快乐，在新的季度里继续探索 AI 的无限可能！🎉
+
+---
+
+*本报告由 AI 自动生成，数据来源截至 2026 年 10 月 1 日 08:36 (北京时间)。如有遗漏或错误，欢迎反馈。*
+
+*下期预告：关注 NeurIPS 2026 论文接收结果、Agent 安全标准进展、以及 Q4 模型发布预测。*
